@@ -10,12 +10,19 @@ namespace :spree_shared do
       db_name.gsub!('-','_')
 
       initializer = SpreeShared::TenantInitializer.new(db_name)
-      puts "Creating database: #{db_name}"
-      initializer.create_database
-      puts "Loading seeds & sample data into database: #{db_name}"
-      initializer.load_seeds
-      initializer.load_spree_sample_data
       
+      puts "Creating database: #{db_name}"
+      initializer.drop_and_create_database
+      
+      puts "Loading seeds into database: #{db_name}"
+      initializer.load_seeds
+      
+      if ENV['LOAD_SAMPLE_DATA']
+        puts "Loading sample data into database: #{db_name}"
+        initializer.load_spree_sample_data
+      end
+      
+      puts "Create admin user into database: #{db_name}"
       initializer.create_admin
 
       puts "Bootstrap completed successfully"
