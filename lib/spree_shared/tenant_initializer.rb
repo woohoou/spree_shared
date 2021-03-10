@@ -21,7 +21,9 @@ class SpreeShared::TenantInitializer
 
   def load_spree_sample_data
     Apartment::Tenant.switch(db_name) do
-      SpreeSample::Engine.load_samples
+      if ENV['LOAD_SAMPLE_DATA_IN_TENANT']
+        SpreeSample::Engine.load_samples
+      end
     end
   end
 
