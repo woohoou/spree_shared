@@ -37,8 +37,8 @@ class SpreeShared::TenantInitializer
                             :password_confirmation => password,
                             :email => email,
                             :login => email)
-        role = Spree::Role.find_or_create_by_name "admin"
-        admin.roles << role
+        role = Spree::Role.find_or_create_by name: "admin"
+        admin.spree_roles << role
         admin.save
       end
     end
